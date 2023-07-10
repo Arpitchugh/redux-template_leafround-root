@@ -1,70 +1,103 @@
-# Getting Started with Create React App
+## Getting Started with Create React App and Redux
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+This documentation provides an overview of a React-Redux application created using Create React App. It explains the project structure, component creation workflow, and store creation workflow.
 
-## Available Scripts
+### Prerequisites
 
-In the project directory, you can run:
+Before you begin, make sure you have `Node.js `and `npm` (Node Package Manager) installed on your machine.
 
-### `npm start`
+### Getting Started
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+This project was bootstrapped with `Create React App`, which is a popular tool for setting up a React application with a predefined folder structure and build configuration.
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+### To start the application, follow these steps:
 
-### `npm test`
+1. Clone the repository or download the project files.
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+2. open a terminal or command prompt and navigate to the project directory.
 
-### `npm run build`
+3. Run the following command to install the project dependencies: `npm install`
+4. Once the installation is complete, start the development server by running the following command:
+   `npm start`
+5. The application will now be running in development mode. Open http://localhost:3000 in your browser to view it.
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+## Component Creation Workflow
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+The component creation workflow in this application follows a specific folder structure to maintain separation of concerns. Here are the steps to create a new component:
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+1. Start with a component name, for example, `MyComponent`.
 
-### `npm run eject`
+2. Create a folder with the same name as the component under the `src/pages` directory, e.g. `src/pages/{ComponentName}`.
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+      - All the code related to the component will be imported inside this folder and here we can bring everything together.
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+3. Create a module for the component under the `src/module` directory, e.g. `src/module/{ComponentName}`.
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+4. Each component will have an `index.jsx` file, which serves as the entry point for the component. Additionally, create four folders: `action`, `components`, `container`, and `reducer` inside the `module/componentName` folder.
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+5. In the `reducer` folder, create a functional slice to store the state specific to that component. This ensures separation of concerns.
 
-## Learn More
+6. In the `action` folder, create actions for the component. This will be the only place where the `useDispatch` hook is used.
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+7. In the `container` folder, create a container component for the component. For example, for `users`, create a `UsersContainer` component, which acts as a wrapper for the component.
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+      - This will be the only place where the `useService` and `useDispatch` hooks are used.
 
-### Code Splitting
+8. In the components folder, create the UI components for the component. This folder will contain code related to the visual representation of the component.
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+9. Finally, use the component in the desired location, such as src/pages/{ComponentName}.
 
-### Analyzing the Bundle Size
+Use the component in the App.jsx file or any other relevant file where you want to include it.
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+### Store Creation Workflow
 
-### Making a Progressive Web App
+The application has two types of stores: `Global store` and `Functional store`, Make sure in every slice we have `error` and `loading` in the state.
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
+#### Global Store
 
-### Advanced Configuration
+The global store holds the global state of the application, such as user state and theme state. It is located in the src/global folder. Use this store to store and manage the global state of the application.
+e.g.
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
+```// We will have all the global users here
 
-### Deployment
+import { createSlice } from '@reduxjs/toolkit';
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
+const SliceName = createSlice({
+	name: 'Name',
+	initialState: {
+		// initial state
+	},
+	reducers: {
+		// reducers will go here
+	},
+});
+```
 
-### `npm run build` fails to minify
+#### Functional Store
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+The functional store holds the state specific to a particular component, such as users state and posts state. It is located in the src/module/reducer folder. Use this store to store and manage the functional state of the application.
+
+To bring these stores together, navigate to the src/store.tsx file. This file exports the combined store, which can be used throughout the application.
+
+### Async dispatch calls
+
+For the complete reference and working refer to module/posts/action/index.js
+
+````
+export const getPosts = async () => {
+	// call the api and dispatch the actions
+	console.log('getPosts');
+	dispatch(setPostLLoadingTrue());
+	const posts = await axios
+		.get('https://jsonplaceholder.typicode.com/posts')
+		.then(res => {
+			console.log(res.data);
+			return res.data;
+		});
+
+	if (posts.length > 0) {
+		dispatch(setPostLLoadingFalse());
+		dispatch(setPostLLoaded(posts));
+	}
+};```
+````

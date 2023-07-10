@@ -8,6 +8,8 @@ const userSlice = createSlice({
 		name: '',
 		email: '',
 		photo: '',
+		error: '',
+		loading: true,
 	},
 	reducers: {
 		setUserLoginDetails(state, action) {
