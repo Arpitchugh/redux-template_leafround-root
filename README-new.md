@@ -41,8 +41,6 @@ The component creation workflow in this application follows a specific folder st
 
 7. In the `container` folder, create a container component for the component. For example, for `users`, create a `UsersContainer` component, which acts as a wrapper for the component.
 
-      - This will be the only place where the `useService` and `useDispatch` hooks are used.
-
 8. In the components folder, create the UI components for the component. This folder will contain code related to the visual representation of the component.
 
 9. Finally, use the component in the desired location, such as src/pages/{ComponentName}.
@@ -58,7 +56,8 @@ The application has two types of stores: `Global store` and `Functional store`, 
 The global store holds the global state of the application, such as user state and theme state. It is located in the src/global folder. Use this store to store and manage the global state of the application.
 e.g.
 
-```// We will have all the global users here
+```js
+// We will have all the global users here
 
 import { createSlice } from '@reduxjs/toolkit';
 
@@ -83,7 +82,7 @@ To bring these stores together, navigate to the src/store.tsx file. This file ex
 
 For the complete reference and working refer to module/posts/action/index.js
 
-````
+```js
 export const getPosts = async () => {
 	// call the api and dispatch the actions
 	console.log('getPosts');
@@ -99,5 +98,5 @@ export const getPosts = async () => {
 		dispatch(setPostLLoadingFalse());
 		dispatch(setPostLLoaded(posts));
 	}
-};```
-````
+};
+```

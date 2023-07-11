@@ -1,6 +1,6 @@
 // import all the components we need from the respective module.
 import { useSelector } from 'react-redux/es/hooks/useSelector';
-import Index from '../../module/posts/index';
+import Index from '../../../module/posts/index';
 
 const Posts = () => {
 	return (
