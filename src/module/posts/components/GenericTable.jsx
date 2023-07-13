@@ -99,6 +99,9 @@ const GenericTable = ({ header = null, body = null }) => {
 											key={
 												key
 											}
+											sx={{
+												maxWidth: '50ch',
+											}}
 										>
 											{
 												value
