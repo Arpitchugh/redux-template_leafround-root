@@ -2,7 +2,6 @@
 import React from 'react';
 import {
 	Box,
-	Button,
 	CircularProgress,
 	Table,
 	TableBody,
@@ -11,10 +10,11 @@ import {
 	TableRow,
 } from '@mui/material';
 import { useSelector } from 'react-redux';
+// import GenericTable from './GenericTable';
 
 const TableCon = ({ posts, color }) => {
 	const loading = useSelector(state => state.posts.loading);
-	console.log(loading);
+	// <GenericTable />;
 	return (
 		<Box>
 			<h2>Hi from table component</h2>

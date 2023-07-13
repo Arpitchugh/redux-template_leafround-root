@@ -90,7 +90,6 @@ export const getPosts = async () => {
 	const posts = await axios
 		.get('https://jsonplaceholder.typicode.com/posts')
 		.then(res => {
-			console.log(res.data);
 			return res.data;
 		});
 
