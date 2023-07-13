@@ -6,9 +6,7 @@ import PostsWrapper from './container/PostsWrapper';
 const index = () => {
 	return (
 		<>
-			<h2> hi from index folder</h2>
 			<PostsWrapper />
-
 		</>
 	);
 };
